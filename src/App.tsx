@@ -14,12 +14,17 @@ const getProducts = async (): Promise<IProduct[]> => {
 const App = () => {
   const { data, isLoading, error } = useQuery<IProduct[]>("products", getProducts);
 
+  // Handlers
+  const addToCartHandler = (selectedProduct: IProduct) => {
+    console.log(selectedProduct);
+  };
+
   // Renders
   const renderProductListItems = () => {
     return (
       <>
         {data?.map(product => (
-          <Product key={product.id} product={product} />
+          <Product key={product.id} product={product} addToCartHandler={addToCartHandler} />
         ))}
       </>
     );
