@@ -1,10 +1,11 @@
-import LoadingSpinner from "components/LoadingSpinner";
-
+import { useState } from "react";
 import { useQuery } from "react-query";
-import { API_INSTANCE } from "./api/axios.config";
-import Product from "./components/Product";
-import { PRODUCTS_URL } from "./constants";
 import { IProduct } from "./interfaces";
+import { API_INSTANCE } from "./api/axios.config";
+import { PRODUCTS_URL } from "./constants";
+import Product from "./components/Product";
+import AppDrawer from "components/Drawer";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const getProducts = async (): Promise<IProduct[]> => {
   return await API_INSTANCE.get(PRODUCTS_URL).then(res => res.data);
@@ -12,10 +13,15 @@ const getProducts = async (): Promise<IProduct[]> => {
 
 const App = () => {
   const { data, isLoading, error } = useQuery<IProduct[]>("products", getProducts);
+  const [open, setOpen] = useState(false);
 
   // Handlers
   const addToCartHandler = (selectedProduct: IProduct) => {
     console.log(selectedProduct);
+  };
+
+  const opCloseHandler = () => {
+    setOpen(!open);
   };
 
   // Renders
@@ -34,6 +40,8 @@ const App = () => {
 
   return (
     <main className="container pt-10 mb-10">
+      <button onClick={() => setOpen(true)}>Open</button>
+      <AppDrawer open={open} onClose={opCloseHandler} />
       <div>{renderProductListItems()}</div>
     </main>
   );
