@@ -1,4 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
+import LoadingSpinner from "components/LoadingSpinner";
 
 import { useQuery } from "react-query";
 import { API_INSTANCE } from "./api/axios.config";
@@ -24,7 +25,7 @@ const App = () => {
     );
   };
 
-  if (isLoading) return <CircularProgress />;
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <h1>Oops, Something went wrong!</h1>;
 
   return (
