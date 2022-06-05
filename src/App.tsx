@@ -6,6 +6,8 @@ import { PRODUCTS_URL } from "./constants";
 import Product from "./components/Product";
 import AppDrawer from "components/Drawer";
 import LoadingSpinner from "components/LoadingSpinner";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Badge } from "@material-ui/core";
 
 const getProducts = async (): Promise<IProduct[]> => {
   return await API_INSTANCE.get(PRODUCTS_URL).then(res => res.data);
@@ -14,14 +16,15 @@ const getProducts = async (): Promise<IProduct[]> => {
 const App = () => {
   const { data, isLoading, error } = useQuery<IProduct[]>("products", getProducts);
   const [open, setOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<IProduct[]>([]);
 
   // Handlers
   const addToCartHandler = (selectedProduct: IProduct) => {
-    console.log(selectedProduct);
+    setCartItems([...cartItems, selectedProduct]);
   };
 
   const opCloseHandler = () => {
-    setOpen(!open);
+    setOpen(false);
   };
 
   // Renders
@@ -40,8 +43,16 @@ const App = () => {
 
   return (
     <main className="container pt-10 mb-10">
-      <button onClick={() => setOpen(true)}>Open</button>
-      <AppDrawer open={open} onClose={opCloseHandler} />
+      <Badge
+        badgeContent={cartItems.length ? cartItems.length : 0}
+        color="error"
+        onClick={() => setOpen(true)}
+        className="flex justify-end mb-10 cursor-pointer w-full"
+        overlap="rectangular"
+      >
+        <ShoppingCartIcon fontSize="large" />
+      </Badge>
+      <AppDrawer open={open} onClose={opCloseHandler} cartItems={cartItems} />
       <div>{renderProductListItems()}</div>
     </main>
   );
