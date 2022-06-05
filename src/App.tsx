@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import LoadingSpinner from "components/LoadingSpinner";
 
 import { useQuery } from "react-query";
@@ -22,11 +21,11 @@ const App = () => {
   // Renders
   const renderProductListItems = () => {
     return (
-      <>
+      <div className="grid grid-cols-4 gap-4">
         {data?.map(product => (
           <Product key={product.id} product={product} addToCartHandler={addToCartHandler} />
         ))}
-      </>
+      </div>
     );
   };
 
@@ -34,7 +33,7 @@ const App = () => {
   if (error) return <h1>Oops, Something went wrong!</h1>;
 
   return (
-    <main>
+    <main className="container pt-10 mb-10">
       <div>{renderProductListItems()}</div>
     </main>
   );
