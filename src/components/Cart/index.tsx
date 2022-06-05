@@ -1,3 +1,4 @@
+import CartItem from "components/CartItem";
 import { IProduct } from "interfaces";
 
 interface Props {
@@ -6,11 +7,16 @@ interface Props {
 
 const Cart: React.FC<Props> = ({ cartItems }) => {
   return (
-    <div className="w-80 p-5">
+    <div className="w-96 p-5">
       {!cartItems.length ? (
         <h2>No items in your Cart!</h2>
       ) : (
-        cartItems.map(item => <h4 key={item.id}>{item.title}</h4>)
+        <>
+          <h2 className="text-2xl mb-10">{cartItems.length} Items in your Cart</h2>
+          {cartItems.map(item => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </>
       )}
     </div>
   );
