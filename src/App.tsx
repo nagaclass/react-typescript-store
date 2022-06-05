@@ -1,5 +1,8 @@
+import { CircularProgress } from "@material-ui/core";
+
 import { useQuery } from "react-query";
 import { API_INSTANCE } from "./api/axios.config";
+import Product from "./components/Product";
 import { PRODUCTS_URL } from "./constants";
 import { IProduct } from "./interfaces";
 
@@ -8,27 +11,26 @@ const getProducts = async (): Promise<IProduct[]> => {
 };
 
 const App = () => {
-  const { data, isLoading } = useQuery<IProduct[]>("products", getProducts);
+  const { data, isLoading, error } = useQuery<IProduct[]>("products", getProducts);
 
   // Renders
   const renderProductListItems = () => {
     return (
       <>
-        {data?.map(({ id, title }) => (
-          <li key={id}>{title}</li>
+        {data?.map(product => (
+          <Product key={product.id} product={product} />
         ))}
       </>
     );
   };
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+  if (isLoading) return <CircularProgress />;
+  if (error) return <h1>Oops, Something went wrong!</h1>;
 
   return (
-    <div>
-      <ul>{renderProductListItems()}</ul>
-    </div>
+    <main>
+      <div>{renderProductListItems()}</div>
+    </main>
   );
 };
 
