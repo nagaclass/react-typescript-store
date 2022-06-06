@@ -33,6 +33,18 @@ const App = () => {
     });
   };
 
+  const removeFromCartHandler = (id: number) => {
+    setCartItems(prev =>
+      prev.reduce((ack, item) => {
+        if (item.id === id) {
+          if (item.quantity === 1) return ack;
+          return [...ack, { ...item, quantity: item.quantity - 1 }];
+        }
+        return [...ack, item];
+      }, [] as IProduct[])
+    );
+  };
+
   const opCloseHandler = () => {
     setOpen(false);
   };
@@ -67,6 +79,7 @@ const App = () => {
         onClose={opCloseHandler}
         cartItems={cartItems}
         addToCartHandler={addToCartHandler}
+        removeFromCartHandler={removeFromCartHandler}
       />
       <div>{renderProductListItems()}</div>
     </main>

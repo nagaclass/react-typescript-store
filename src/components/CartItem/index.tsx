@@ -4,10 +4,11 @@ import Button from "@material-ui/core/Button";
 interface Props {
   item: IProduct;
   addToCartHandler: (selectedProduct: IProduct) => void;
+  removeFromCartHandler: (id: number) => void;
 }
 
-const CartItem: React.FC<Props> = ({ item, addToCartHandler }) => {
-  const { title, image, price, quantity } = item;
+const CartItem: React.FC<Props> = ({ item, addToCartHandler, removeFromCartHandler }) => {
+  const { id, title, image, price, quantity } = item;
   return (
     <div className={`flex justify-between  mb-5 border-b-2 border-slate-400 pb-5`}>
       <span className="w-16 h-16 block border-2 border-slate-700 overflow-hidden rounded-full mr-5 p-2">
@@ -24,7 +25,7 @@ const CartItem: React.FC<Props> = ({ item, addToCartHandler }) => {
             +
           </Button>
           <span>{quantity}</span>
-          <Button variant="outlined" size="medium">
+          <Button variant="outlined" size="medium" onClick={() => removeFromCartHandler(id)}>
             -
           </Button>
         </div>

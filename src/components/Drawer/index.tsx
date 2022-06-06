@@ -7,12 +7,23 @@ interface AppDrawerProps {
   onClose: () => void;
   cartItems: IProduct[];
   addToCartHandler: (selectedProduct: IProduct) => void;
+  removeFromCartHandler: (id: number) => void;
 }
 
-const AppDrawer: React.FC<AppDrawerProps> = ({ open, onClose, cartItems, addToCartHandler }) => {
+const AppDrawer: React.FC<AppDrawerProps> = ({
+  open,
+  onClose,
+  cartItems,
+  addToCartHandler,
+  removeFromCartHandler,
+}) => {
   return (
     <Drawer open={open} onClose={onClose} anchor="right">
-      <Cart cartItems={cartItems} addToCartHandler={addToCartHandler} />
+      <Cart
+        cartItems={cartItems}
+        addToCartHandler={addToCartHandler}
+        removeFromCartHandler={removeFromCartHandler}
+      />
     </Drawer>
   );
 };
