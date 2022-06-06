@@ -6,12 +6,13 @@ interface AppDrawerProps {
   open: boolean;
   onClose: () => void;
   cartItems: IProduct[];
+  addToCartHandler: (selectedProduct: IProduct) => void;
 }
 
-const AppDrawer: React.FC<AppDrawerProps> = ({ open, onClose, cartItems }) => {
+const AppDrawer: React.FC<AppDrawerProps> = ({ open, onClose, cartItems, addToCartHandler }) => {
   return (
     <Drawer open={open} onClose={onClose} anchor="right">
-      <Cart cartItems={cartItems} />
+      <Cart cartItems={cartItems} addToCartHandler={addToCartHandler} />
     </Drawer>
   );
 };

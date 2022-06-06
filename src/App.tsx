@@ -16,11 +16,21 @@ const getProducts = async (): Promise<IProduct[]> => {
 const App = () => {
   const { data, isLoading, error } = useQuery<IProduct[]>("products", getProducts);
   const [open, setOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<IProduct[]>([]);
+  const [cartItems, setCartItems] = useState([] as IProduct[]);
 
   // Handlers
   const addToCartHandler = (selectedProduct: IProduct) => {
-    setCartItems([...cartItems, selectedProduct]);
+    setCartItems(prev => {
+      const cartItemExists = prev.find(item => item.id === selectedProduct.id);
+
+      if (cartItemExists) {
+        return prev.map(item =>
+          item.id === selectedProduct.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+
+      return [...prev, { ...selectedProduct, quantity: 1 }];
+    });
   };
 
   const opCloseHandler = () => {
@@ -52,7 +62,12 @@ const App = () => {
       >
         <ShoppingCartIcon fontSize="large" />
       </Badge>
-      <AppDrawer open={open} onClose={opCloseHandler} cartItems={cartItems} />
+      <AppDrawer
+        open={open}
+        onClose={opCloseHandler}
+        cartItems={cartItems}
+        addToCartHandler={addToCartHandler}
+      />
       <div>{renderProductListItems()}</div>
     </main>
   );
