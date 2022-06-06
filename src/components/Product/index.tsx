@@ -20,7 +20,7 @@ const Product: React.FC<Props> = ({ product, addToCartHandler }) => {
         <p className="text-sm mt-5 font-semibold">{textSlicer(description, 100)}</p>
         <h6 className="font-semibold mt-5">${price}</h6>
         <button
-          className="bg-slate-700 w-full text-white py-2 rounded-md cursor-pointer mt-5 uppercase font-bold text-sm"
+          className="bg-slate-700 hover:bg-slate-500 w-full text-white py-2 rounded-md cursor-pointer mt-5 uppercase font-bold text-sm"
           onClick={() => addToCartHandler(product)}
         >
           Add to Cart
